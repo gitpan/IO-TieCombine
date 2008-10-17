@@ -1,0 +1,10 @@
+Changes
+LICENSE
+MANIFEST
+META.yml
+Makefile.PL
+README
+lib/IO/TieCombine.pm
+lib/IO/TieCombine/Handle.pm
+lib/IO/TieCombine/Scalar.pm
+t/basic.t

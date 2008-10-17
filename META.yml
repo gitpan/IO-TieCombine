@@ -1,0 +1,10 @@
+--- 
+abstract: produce tied (and other) separate but combined variables
+author: 
+  - Ricardo SIGNES <rjbs@cpan.org>
+generated_by: Dist::Zilla::Plugin::MetaYaml version 1.002
+license: perl
+name: IO-TieCombine
+requires: {}
+
+version: 1.000
