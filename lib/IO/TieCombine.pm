@@ -1,8 +1,9 @@
 use strict;
 use warnings;
 package IO::TieCombine;
-our $VERSION = '1.000';
-
+{
+  $IO::TieCombine::VERSION = '1.001';
+}
 # ABSTRACT: produce tied (and other) separate but combined variables
 
 use Carp ();
@@ -55,6 +56,13 @@ sub _tie_args {
     combined_ref => $self->{combined},
     output_ref   => $self->_slot_ref($name),
   };
+}
+
+
+sub clear_slot {
+  my ($self, $slot_name) = @_;
+  ${ $self->_slot_ref($slot_name) } = '';
+  return;
 }
 
 
@@ -114,7 +122,6 @@ sub callback {
 1;
 
 __END__
-
 =pod
 
 =head1 NAME
@@ -123,37 +130,37 @@ IO::TieCombine - produce tied (and other) separate but combined variables
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 SYNOPSIS
 
 First, we set up a bunch of access points:
 
-    my $hub = IO::TieCombine->new;
+  my $hub = IO::TieCombine->new;
 
-    my $str_ref  = $hub->scalar_ref('x');
-    my $fh       = $hub->fh('x');
-    my $callback = $hub->callback('x');
+  my $str_ref  = $hub->scalar_ref('x');
+  my $fh       = $hub->fh('x');
+  my $callback = $hub->callback('x');
 
-    tie my $scalar, $hub, 'x';
-    tie local *STDOUT, $hub, 'x';
+  tie my $scalar, $hub, 'x';
+  tie local *STDOUT, $hub, 'x';
 
-    tie local *STDERR, $hub, 'err';
+  tie local *STDERR, $hub, 'err';
 
 Then we write to things:
 
-    $$str_ref .= 'And ';
-    print $fh "now ";
-    $callback->('for ');
-    $scalar .= 'something ';
-    print "completely ";
-    warn "different.\n";
+  $$str_ref .= 'And ';
+  print $fh "now ";
+  $callback->('for ');
+  $scalar .= 'something ';
+  print "completely ";
+  warn "different.\n";
 
 And then:
 
-    $hub->combined_contents;    # And now for something completely different.
-    $hub->slot_contents('x');   # And now for something completely
-    $hub->slot_contents('err'); # different.
+  $hub->combined_contents;    # And now for something completely different.
+  $hub->slot_contents('x');   # And now for something completely
+  $hub->slot_contents('err'); # different.
 
 =head1 METHODS
 
@@ -167,20 +174,26 @@ This method returns the contents of all collected data.
 
 =head2 slot_contents
 
-    my $str = $hub->slot_contents( $slot_name );
+  my $str = $hub->slot_contents( $slot_name );
 
 This method returns the contents of all collected data for the named slot.
 
+=head2 clear_slot
+
+  $hub->clear_slot( $slot_name );
+
+This sets the slot back to an empty string.
+
 =head2 fh
 
-    my $fh = $hub->fh( $slot_name );
+  my $fh = $hub->fh( $slot_name );
 
 This method returns a reference to a tied filehandle.  When printed to, output
 is collected in the named slot.
 
 =head2 scalar_ref
 
-    my $str_ref = $hub->scalar_ref( $slot_name );
+  my $str_ref = $hub->scalar_ref( $slot_name );
 
 This method returns a reference to scalar.  When appended to, the new content
 is collected in the named slot.  Attempting to alter the string other than by
@@ -188,19 +201,18 @@ adding new content to its end will result in an exception.
 
 =head2 callback
 
-    my $code = $hub->callback( $slot_name );
+  my $code = $hub->callback( $slot_name );
 
 =head1 AUTHOR
 
-  Ricardo SIGNES <rjbs@cpan.org>
+Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2008 by Ricardo SIGNES.
+This software is copyright (c) 2011 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
-the same terms as perl itself.
+the same terms as the Perl 5 programming language system itself.
 
-=cut 
-
+=cut
 
