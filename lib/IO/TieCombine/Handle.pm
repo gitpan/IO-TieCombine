@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package IO::TieCombine::Handle;
 {
-  $IO::TieCombine::Handle::VERSION = '1.002';
+  $IO::TieCombine::Handle::VERSION = '1.003';
 }
 # ABSTRACT: tied filehandles for IO::TieCombine
 
@@ -45,6 +45,7 @@ sub FILENO   { return 0 + $_[0] }
 1;
 
 __END__
+
 =pod
 
 =head1 NAME
@@ -53,7 +54,7 @@ IO::TieCombine::Handle - tied filehandles for IO::TieCombine
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 AUTHOR
 
@@ -61,10 +62,9 @@ Ricardo SIGNES <rjbs@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Ricardo SIGNES.
+This software is copyright (c) 2013 by Ricardo SIGNES.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
